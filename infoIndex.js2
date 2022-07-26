@@ -1,0 +1,57 @@
+Pour faire marcher les TOKEN sur POSTMAN, il faut aller à API KEY avec reférence Headers
+###
+Sur le chap9, on va faire le JWT
+Trés simple, on installe NPM I JSONWEBTOKEN puis on fait cette petite fonction:
+const accessToken = sign({ username: user.username, id: user.id }, "TOKEN_SECRET");
+En écrivant juste sign, on aura le const {sign} en hauteur.
+
+Pour vérifier le TOKEN de res.json(accessToken) sur le FRONT, on peut aller sur le NETWORK, sur le dernier LOGIN envoyé on aura en RESPONSE la clé du TOKEN. Ou bien, sur APPLICATION, dans Session Storage
+
+#
+Ensuite on fait le AUTH du middleware && dans le req.header("on met le TOKEN_SECRET du FRONT")
+Sur cette fonction:
+const decodedToken = verify(accessToken, "TOKEN_SECRET");
+On vérifie const accessToken AVEC le TOKEN_SECRET
+
+Ce qui nous améne à le rajouter sur la Route "/comment-post" le AUTH
+ puis ensuite d'aller sur le FRONT notmt POST03.JS dans le handleComment pour rajouter le headers : {GET-ITEM}
+ Donc dans le LOGIN, on a {SET-ITEM} && le POST le {GET-ITEM}
+
+ ###
+ Le chap10
+ On souhaite rajouter au post du Commentaire le nom du Username.
+ Pour cela, on va rajouter "username" dans le model du Comment (ensuite sequelize db:migrate puis on drop la table Comment sur WORKBENCH puis on mis à jour) puis aller sur auth/middleware && commentCtrl rajouté le req.user.username
+ L'association sera sur le Post du CommentCtrl => const username = req.user.username; comment.username = username; => La vérif se fera aprés avoir posté un commentaire sur WORKBENCH. La colonne "username" est représentée par un "prenom"
+
+ #
+ Et maintenant, on veut les LINK LOGIN & REGISTER disparaiessent quand on est connecté. Pour cela on va rajouter dans APP03.JS => 
+
+ Quelle raison fait quil faut UTILISER NOW LE LOCALSTORAGE. Si on écrit sur la console de Inspecter
+  => sessionStorage.setItem('accessToken', 'aaliyah') & qu'on regarde sur APPLICATION.
+  On aura cette session et ça ne nous arrange pas. Alors on va utiliser LOCALSTORAGE
+  Donc on le change dans LOGIN && dans APP03 && dans POST04
+
+  #
+  Pour que ça marche pour le LOCALSTORAGE, on crée APPCONTEXT/helpers puis on le transfére dans le APP03 (ça englobe le BROWSERROUTER comme dans FromScratch) & on le passe en props avec un useState && on change localStorage.getItem("accessToken") en UID mais également lui faire un useEffect toujours dans le APP
+  Puis on va dans le LOGIN02 pour également le localStorage.getItem("accessToken")
+  => Pour faire importer APPCONTEXT de maniére auto, il faut que le fichier soit juste à coté
+
+  #
+  On va dans le BACK pour faire la route du AUTH AN USER (bien y rajouter AuthTOKEN) dans userCTRL puis on l'axios dans le APP05. Et attention, 🎉🎉c'est RES.DATA.MESSAGE ici et non RES.DATA.ERROR pour finaliser le chap10
+  Et pour vérifier le tout pour si connecté ou pas, on va sur NETWORK 
+
+  ###
+  Le chap11 parle du LOGOUT
+  On va le faire dans le APP05
+  Ensuite on modifie le usestate du UID & le .then
+  On modifie également le setUID de LOGOUT && LOGIN en y intégrant({username: "", id: 0, status: true/false}) 
+  Puis on modifie également le BACK avec authCtrl02 puis on retourne au LOGIN02
+  #
+  On fait le comment-delete
+  Pour cela, on commence par sa route au BACK puis au FRONT avec POST.
+  Au POST05 , on ramene aussi le useContext (On remarque que Pedro raméne le {setUid} & non le [uid] comme FS dans le LOGIN.JS)🎉
+  On fait la logique du handleDelete ensuite
+// A refaire quand même avec la methode Traversy ou FS pour le handleDelete
+
+
+

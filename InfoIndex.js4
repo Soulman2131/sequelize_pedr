@@ -1,0 +1,41 @@
+Pour faire marcher les TOKEN sur POSTMAN, il faut aller à API KEY avec reférence Headers
+###
+Dans le chap14, on va supprimer le Username qui se trouve dans le CREATEPOST02 puisque l'on peut faire jouer les INCLUDE.
+Ensuite, on lui rajoute un AUTHTOKEN au BACK & on va faire comme CREATE-COMMENT && comment GETALL POST toujours pour le BACK.
+Ensuite on fait les modif sur CREATEPOST02
+
+#
+On va faire le DELETEPOST 
+
+Pour le BACK, c'est déjà fait, on rajoute juste le AUTHTOKEN
+Pour le FRONT, il sera sur le footer du LEFTSIDE DU POST06 et lui fait son handlePost & y ajoute un useNavigate
+
+
+###
+Le chap15 porte sur le profil du User => PROFILPAGE
+Et comme pour le BACK avec le GETSINGLEPOST du postCtrl, on fait pareil pour le GETSINGLEUSER DU userCtrl
+❤️💕 On excluera au SINGLEPOST du BACK le password avec la methode 
+=> {attributes: {exclude: ['password'] } }
+Dans le BACK, on a deux equations à resoudre, le premier est résolu avec userCtrl && le deuxiéme sera sur postCtrl04 avec GETPOSTUSER
+
+Dans le deuxiéme, on aura donc GETPOSTUSER/:id => Trés spécial. Ici on récupére le GETALL de tous les POSTS où l'on a un UserId = id du user => Ce qui nécessite que l'on ajoute au MODEL du USER l'association avec le POST && surtout aller sur WORKBENCH sur la table POST et y CLICK DROIT pour ALTER TABLE le row USERID avec INT 
+On remarquera dans WORKBENCH que l'on peut aussi modifier les classes dans la tableau de resultat et mettre APPLY pour valider
+Ensuite on va rajouter le USERID sur le controller CREATEPOST sur postCtrl04
+
+Pour le FRONT, on le crée dans page (PROFILPAGE)  puis on l'importe dans APP.JS pour sa route =>  C'est la même architecture que POST.JS
+
+###
+Le chap16 porte sur l'EDIT du Post notmt le title && le body
+Pour cela, on va le coder en Front en POST07 (attention on parle bien du POST && non du HOME)
+
+#
+Ensuite on va créer un button pour changer le mot de passe dans PROFILPAGE02 puis on va se créer CHANGEPASSSWORD.JS & on l'importe dans APP05
+Ensuite on va dans AUTHCTRL03 pour créer une nouvelle route ('/changepassword') pour le BACK
+On termine au front avec AWIOS.
+
+###
+Le chap17 parle du deploiement vers HEROKU mais on ne le fera pas 
+
+
+
+

@@ -1,0 +1,46 @@
+###
+lE CHAP12
+On fait le LIKES 
+Donc on commence par créer le model sequelize model:create --attributes "likes:string" --name Likes 
+Puis on supprime les données du likes:string puis sequelize db:migrate
+Puis on fait le hasMany sur Posts && sur Users, puis on fait le mis à jour en DROPPANT la table LIKES puis NPM RUN DEV
+On verra le PostId & le UserId
+#
+Attention, on a  LOCALSTORAGE && non SESSIONSTORAGE sur le FRONT avec PEDRO (HOME.JS && POST.JS) 
+#
+On fait la route LIKE avec "api/likes" & le controller 
+const UserId= req.user.id => Le user.id vient du LOGIN & notmt de id: user.id (page 43 du authCtrl02)
+Pour vérifier le controller du Like sur POSTMAN, le UserId sera le BEARER && le PostId sera le body puis on visualise sur WORKBENCH
+Ensuite, on le repercute sur le Front notmt sur le classname FOOTER du HOME03 en rajoutant un button
+#
+On va ensuite RAJOUTE le model LIKE dans le GETALL du POST.JS sur le CTRL 
+=> include: [Likes]
+J'en ai profité pour rajouter order, limit, etc. de FS
+ puis on le verifie sur le NETWORK en clickant sur NETWORK puis Posts
+Et ensuite on fait le map de LIKE sur HOME.JS pour sortir le LENGTH
+
+###
+Le chap13
+On continue avec les LIKE pour la forme
+On installe  material-ui.com dans CLIENT (on aura 2 npm i) 🎉🎉
+=> https://mui.com/material-ui/getting-started/installation/
+=> npm install @mui/material @emotion/react @emotion/styled
+&& => npm install @mui/icons-material
+Puis on va sur le site et on clique sur Components puis Material-icons puis on search l'icone "like" & on le rajoute dans HOME03
+#
+Ensuite on va rajouter au CTRL du POSTCTRL, le GETALL du LIKES puis on le transfére au HOME03
+On aura à rajouter => headers: { accessToken: localStorage.getItem("accessToken") }
+&& également le usestate du LIKE
+#
+On finit le chap par faire une route pour PAGE NOT FOUND dans APP05
+
+❤️ On remarque dans le chap13 une erreur avec le MAP. Cette erreur est du au fait que si on se deconnecte (par exemple du HOME), on n'est pas renvoyé au LOGIN, il faut corriger cet erreur. Donc on va mettre dans le USEEFFECT du HOME03 si connecté ou pas avec le const {uid} & le navigate('/login) de la Route path() .
+Et n'oublions pas qu'à la base le !uid.status? provient du APP.JS
+
+#
+Et on fait la même chose avec CreatePost comme avec HOME03 avec le const {uid} && on lui rajoute un USEEFFECT. Comme ça on est fixé sur la page du HOME avec le HOME-PAGE & le CREATE-POST
+
+
+
+
+

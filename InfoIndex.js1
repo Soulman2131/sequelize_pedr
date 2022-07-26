@@ -1,0 +1,106 @@
+###
+
+Le tuto => https://www.youtube.com/watch?v=Hl7diL7SFw8&list=PLpPqplz6dKxUaZ630TY1BFIo5nP-_x-nL
+
+##
+
+
+Le cours porte sur FULLSTACK WEB APP (react-NodeJs/Express-Rest Api- MYSQL- SEQUELIZEJS)
+On commence par deux dossiers : server && client
+Dans SERVER, on NPM I EXPRESS CORS MYSQL2 DOTENV COLORS MOMENT puis NODEMON
+Pour que le NODE_ENV=production marche, il faut ajouter impérativement index.JS à la fin du pack.json
+
+#
+On va installer le DB de MYSQL SEQUELIZE
+on se crée sur WORKBENCH la DATABASE(Schema) puis
+
+=> NPM I SEQUELIZE SEQUELIZE-CLI puis SEQUELIZE INIT
+Puis on supprime les deux dossiers SEEDERS & MIGRATIONS.
+❤✌ DE MA PART, JE PREFERE NE PAS SUPPRIMER MIGRATIONS ET FAIRE
+ SEQUELIZE MODEL:CREATE --ATTRIBUTES "title:string postText:string username:string" --name Posts puis SEQUELIZE DB:MIGRATE puis rajouter allowNull:false dans MIGRATION. 
+
+Ensuite on fait le db dans INDEX.JS et ce db va englober app.listen. Noublions pas de mettre localhost dans config.json au lieu de 127.0.0.1
+
+##
+
+On fait le CRUD.
+Sur postCtrl, pour appeler le model Posts => const { Posts } = require("../models");
+
+##
+Le chap3
+On fait le FRONT
+On fait cd CLIENT puis NPX CREATE-REACT-APP .
+Donc pas besoin de supprimer le CLIENT, juste . suffit
+&& n'oublions pas de rajouter le CORS
+On fait l'APP.js & puis on suit la logique du DIV.NAVBAR de l'APP.JS à savoir
+ le HOME puis ensuite le CREATEPOST (pour le faire on utilise des input&label, les FORMIK & leur useState est [] pcq 'on aura map qu'on a le Array) puis le Post/:id (sachant que seul celui ci sera mis dans le Home(navigate(`/post/${post.id}`);). On aura également le {id}= useParams & leur useState est {}) puisque le data n'aura pas de MAP
+
+
+✌👨‍💻Dans le useffect on met le axios du localhost:5000 pour que ca marche => On va le mettre directement dans HOME.JS et comme ça les ROUTES seront faites sur APP.JS. Les routes permettent de définir les routes des sites.
+=> Exemple la route localhost:5000 correspond au "/" et on l'on attribue à HOME
+Quand on rajoute count dans le GETALL, c'est plus dur, il faut creuser plus dans le setPosts du USEFFECT & rajouté res.data.posts
+
+###
+
+Dans le chap4, dans cd client, on NPM REACT-ROUTER-DOM puis on crée PAGES dans SRC puis on copie tout ce que l'on a fait sur APP01.JS (j'ai oublié de le sauvegarder le APP01) && dans APP02.JS on met les ROUTES avec un LINK
+✌ On installe NPM I FORMIK puis on l'intégre dans pages/CREATEPOST => Trés important, quand on crée un POST, sur le FRONT, c'est le data que l'on aura à associer à AXIOS..axios('', data)
+On aura
+<FORMIK initialValues-onSubmit-validationSchema>
+
+<Form> <label> <Field />
+
+&& Ensuite on NPM I YUP
+
+###
+
+Dans le chap5, on va individualiser le post en créant sur APP.js une nouvelle route => path="/post/:id" && sur PAGES aussi.
+Donc ici on gravite entre APP(on lui met une Route ), HOME && POST.JS
+Dans la page POST.JS, on va utiliser {useParams} && dans Home(le Post/:id sera mis ici) on va rajouter un ONCLICK dans le 1er DIV afin de lui faire un lien vers localhost/post/:id et créer aussi un {useNavigate} pcq {useHistory} n'existe plus & on n'a plus besoin de mettre history.❤ push mais juste history ❤ ✌
+=> se ref => https://stackoverflow.com/questions/62861269/attempted-import-error-usehistory-is-not-exported-from-react-router-dom
+
+Une fois qu'on a créé le Post.js, on va rajoutre le useNavigate dans CREATEPOST afin qu'elle nous pointe sur le '/' qui est HOME avec le total
+
+###
+Avant de faire le REGISTER & le LOGIN, on va faire le BACK avec COMMENTS et construire le model d'association
+
+Dans le 6, on fait le modele d'association de POSTS avec COMMENTS
+J'ai refait le model. Comment?
+(J'ai supprimé le config/config.json && models.)
+Ensuite, j'ai SEQUELIZE INIT puis créer les deux modéles avec SEQUELIZE MODEL:CREATE --ATTRIBUTES "title:string postText:string username:string" --name Posts et pareil pour --name Comments
+Ensuite je rajoute allowNull:false dans MIGRATION
+Ensuite sequelize db:migrate (ou sinon je drop dans WORKBENCH la table Comments)
+Ensuite on rajoute le modéle d'association dans Posts => models.Posts.hasMany(models.Comments, {onDelete: "CASCADE", onUpdate: "CASCADE" });
+Et on aura le POSTID ajouté si on regarde le WORKBENCH
+
+Sur la route COMMENT, on va faire comment-all/:id => on va chercher tout le GETALL du PostId= req.params.id
+& on va faire aussi le comment-post
+Ce qui engendre sur POSTMAN, on aura sur le body du POST => commentBody && le PostId
+Et sur le GETALL/:id => le PostId sera rien d'autre que le /:id
+
+###
+
+Sur le 7, on fait le COMMENT en FRONT sur POST02.JS
+On va utiliser AXIOS.
+Le GETALL sera sur le useEffect et le POST sera le button handleComment
+👌🤷‍♀️🎉Sur la creation du POST /:id, au lieu de mettre la data, on aura deux infos : commentBody & postId. PourQuoi pcq sur le POSTMAN, on avait sur le body c'est deux infos La valeur du commentBody sera le copain du setNewComment(e.target.value) qui se trouve dans le input.
+Et le postId sera le {id}
+
+###
+
+Sur le 8, on va faire le USER
+On fait en premier le model du USER.
+Puis le REGISTER(avec User.create) et le LOGIN(avec User.findOne())
+Dans le REGISTER, on demande de nous le hasher avec le BCRYPT:
+Et dans le LOGIN, on lui demande si l'email existe avec le WHERE, et si oui, il va comparer le mot de passe hashé avec le mot de passe qu'on vient de taper
+.
+Pedro ne traite pas du JSONWEBTOKEN dans le login
+
+Ensuite, on travaille sur le FRONT en mettant leur 2 LINK sur APP02.JS
+&& on crée deux pages de LOGIN & REGISTER
+Il faut decommenter le model d'association du USERS pour éviter des erreurs sur le FRONT une fois qu'on a injecté les login && register dans le APP02.
+On fait comme sur le CREATEPOST avec les FORMIK & YUP pour travailler les deux pages.
+Dans le FIELD du PASSWORD, trés important de rajouter type="password" pour montrer que c'est un mdp
+Pour le LOGIN, on fait la methode label&input normal et dans le handleLogin on met le const data = {}
+
+✌ Pour transférer les erreurs du BACK au FRONT sur LOGIN.JS, il faut passer les erreurs sur res.status(200) au BACK et comme ça on les travaille sur .then()
+Et si on les passe sur 400, on sera obligé de les mettre sur le .catch
